@@ -57,15 +57,15 @@ That's it.
 
 ## Design Notes
 
-#### Yet another disclaimer; don't use this.
+### Yet another disclaimer; don't use this.
 
 Great time to remind you I'm not a security or cryptography expert. Remember this is for educatioanl purposes- do not use this in production.
 
-#### Dependencies
+### Dependencies
 
 I don't like having core/critical components with lots of random third-party dependencies. A goal for rashomon was to use only the Go standard library.
 
-#### Why do you use asymmetric cryptography instead of AWS SigV4's HMAC implementation?
+### Why do you use asymmetric cryptography instead of AWS SigV4's HMAC implementation?
 
 Most of what I can find on the topic in way of blogs and tech talks speaks to AWS SigV4 using HMAC for [AWS's need for incredible scale](https://aws.amazon.com/awstv/watch/44e6f1abd16/). It is many factors cheaper on computation to take the request as-is and *just re-calculate* the HMAC & SHA-256 signature than to do asymmetric cryptography. You can also do derived keys or some other fancy stuff that's beyond me... It's actually all quite brilliant.
 
@@ -73,7 +73,7 @@ But it got me thinking... most companies don't need to scale their APIs to billi
 
 So, I figured asymmetric cryptography will be better for the average API. Ed25519 is still *millisecond scale* generally and quite often used for JWT and other token implementations, so I think this is generally good enough for most use cases, and gets us the benefits up above without the concerns.
 
-#### Nonce & Timestamp
+### Nonce & Timestamp
 
 We want to ensure that requests can't be re-played; that is, hypothetically, if another party can see the request in transit, they can't just copy the request and repeat it.
 
@@ -94,6 +94,6 @@ The correct logic would be:
 4. Check timestamp is within +/-1 Minutes
 5. Perform nonce lookup (recommended TTL of 5 minutes)
 
-#### Invalidating Keys
+### Invalidating Keys
 
 Invalidating keys means simply making sure look-ups on `x-rmn-key-id` fail. This would prevent any any signatures for this key, even *future* from working.
