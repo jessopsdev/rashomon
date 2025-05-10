@@ -2,8 +2,6 @@
 
 **This is NOT for Production usage. It has not been tested to the rigors of production and is intended only for educational purposes. Use at your own risk.**
 
-rashomon is a distributed system
-
 rashomon is an implementation of "request-signing" authentication for HTTP APIs, inspired by [AWS Sig V4](https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html) but with the key difference in that it uses asymmetric cryptography. You can read more [further below](#why-hmac-is-used-in-aws-sigv4-what-will-rashomon-use).
 
 In request-signing, certain attributes of an HTTP request form a *canonical request*. Utilizing the end-users private key the canonical request is signed, and the signature is shared in the *Authorization* header.
@@ -26,13 +24,13 @@ All `rashomon` functions exposed in the public API take a "Canonical Request", d
 
 ```go
 type CanonicalRequest struct {
-	Method      string
-	URL         string
-	KeyID       string
-	Timestamp   string
-	Nonce       string
-	ContentType string
-	Body        string
+    Method      string
+    URL         string
+    KeyID       string
+    Timestamp   string
+    Nonce       string
+    ContentType string
+    Body        string
 }
 ```
 
